@@ -1,7 +1,9 @@
 # Day 5 Project - Password Generator
 
 I will be creating a generic password generator
-using a Caesar Cpyher.
+by randomly selecting how many of each type of
+character the user wants, appending to a list, 
+then randomizing and joining the resulting list.
 
 It will ask the user for how many letters they want,
 how many symbols, and how many numbers.
