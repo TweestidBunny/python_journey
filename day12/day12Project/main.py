@@ -5,50 +5,57 @@ random_number = randint(1, 100)
 
 print('Welcome to the Number Guessing Game!\nI\'m thinking of a number between 1 and 100.')
 
-difficulty = ''
-
-while difficulty != 'easy' and difficulty != 'hard':
+# Ask for user to set difficulty, easy/hard
+def get_difficulty():
+  while True:
+    choice = input("Choose a difficulty. Type 'easy' or 'hard: ").lower()
+    if choice == 'easy' or choice == 'hard':
+      return choice
+    
+def set_turns(dif):
+  if dif == 'easy':
+    return 10
+  else:
+    return 5
   
-  # Ask for user to set difficulty, easy/hard
-  difficulty = input('Choose a difficulty. Type \'easy\' or \'hard\': ').lower()
+def check_answer(guess, num):
+  if guess == num:
+    print(f"You got it! The answer was {num}.")
+    return True
+  else:
+    if guess > num:
+      print('Too high.')
+    else:
+      print('Too low.')
+    return False
+  
+def turns_remain(num):
+  if num > 1:
+    return 's'
+  else:
+    return ''
 
-win = None
+# Set difficulty
+difficulty = get_difficulty()
 
 # Set number of turns based on difficulty picked
-turns = 0
-
-if difficulty == 'easy':
-  turns = 10
-else:
-  turns = 5
+turns = set_turns(difficulty)
 
 while True:
-  print(f'You have {turns} remaining to guess the number.')
   
-  # Ask user to guess the number
-  guess = int(input('Make a guess: '))
+  if turns > 0:
+    print(f'You have {turns} attempt{turns_remain(turns)} remaining to guess the number.')
 
-  # Check guess vs selected random number
-  if guess != random_number:
-    if guess > random_number:
-      print('Too high.')
-    elif guess < random_number:
-      print('Too low.')
+    # Ask user to guess the number
+    guess = int(input('Make a guess: '))
 
-    turns -= 1
-  
-  # Set win or lose
-  if guess == random_number or turns == 0:
-    if turns == 0:
-      win = False
+    # Check guess vs selected random number
+    if check_answer(guess, random_number):
+      break
     else:
-      win = True
+      turns -= 1
+      if turns > 0:
+        print('Guess again.')
+  else:
+    print("You've run out of guesses. You lose.")
     break
-  
-  print('Guess again.')
-
-# Print win or lose
-if win == True:
-  print(f"You got it! The answer was {random_number}.")
-else:
-  print(f"You've run out of guesses, you lose.")
